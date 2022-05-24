@@ -1,0 +1,35 @@
+{% extends "../base/base.html" %}
+{% block title %}update bio{% endblock %}
+
+{% block content %}
+<!--todo varify again before changing mail -->
+<form method="post" enctype="multipart/form-data">
+    {% if user_form.is_valid %}
+    <div class="alert" role="alert">detail successfully updated</div>
+    {% else %}
+    <p>change details here</p>
+    {% endif %}
+
+    {% if user_form.errors %}
+    <p class="alert" role="alert">try again !</p>
+    {% endif %}
+    <div>
+        {% csrf_token %}
+        <label class="user">{{ user_form.email.label }}</label> {{ user_form.email }}
+        <button class="button" type="submit" value="save changeee">sssave</button>
+        <P>delete account below !</P>
+        <a class="link" href="{% url 'users:deleteuser' %}" role="button" aria-pressed="true">Deelelete acoaunt</a>
+
+    </div>
+
+</form>
+
+<div>
+    <hi>update</hi>
+    <a href="{% url 'logout' %}"> Logout</a>
+    <a href="{% url 'users:register' %}">register</a>
+
+</div>
+
+
+{% endblock %}

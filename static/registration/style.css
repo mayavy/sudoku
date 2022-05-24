@@ -1,0 +1,59 @@
+form {
+    text-align: center;
+    position: relative;
+    top: 30%;
+    left: 35%;
+    width: min-content;
+    background: linear-gradient(55deg, rgba(255, 0, 0, 0.635), rgba(0, 0, 255, 0.553), cyan, rebeccapurple);
+    padding: 20px 20px 20px 20px;
+    border: 1px solid rgb(3, 3, 3);
+    border-radius: 8px;
+    box-shadow: 0 3px 10px 5px rgba(108, 177, 255, 0.977);
+}
+
+.login-label {
+    display: inline-block;
+    text-decoration: none;
+    color: rgb(1, 6, 4);
+    font-size: larger;
+    -webkit-text-stroke-color: rgb(255, 254, 254);
+    -webkit-text-stroke-width: 0.15px;
+    margin: 0 0 20px 0;
+    font-family: Georgia, serif;
+
+}
+
+#password,
+#email {
+    margin: 20px 0 20px 0;
+}
+
+
+#login-username,
+#login-pwd,
+#login-email,
+#change-pwd {
+    font-size: large;
+    text-align: center;
+    color: black;
+    background: rgba(250, 250, 250, 0.354);
+
+    padding: 10px 10px 10px 10px;
+    border: 1.5px ridge rgba(255, 255, 255, 0.977);
+    border-radius: 8px;
+}
+
+#login-username:-webkit-autofill,
+#login-pwd:-webkit-autofill,
+#login-email:-webkit-autofill,
+#change-pwd:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.button {
+    background: local;
+    margin: 20px 0 0 0;
+    padding: 5px 5px 5px 5px;
+    border: 1px solid black;
+    border-radius: 8px;
+}

@@ -1,0 +1,21 @@
+{% extends "../base/base.html" %}
+{% block title %} do delete{% endblock %}
+
+{% block content %}
+
+{% if not request.user.is_authenticated %}
+<script>window.location.href = '{% url "users:login" %}' </script>
+{% endif %}
+
+<form action="{% url 'users:deleteuser' %}" method="post">
+    {% csrf_token %}
+    <p class="ask"> you sure ?</p>
+
+    <button class="button" class="btn btn-dark " type="submit" value="login">delttte</button>
+
+
+</form>
+<a class="link" href="{% url 'logout' %}"> Logout</a><br />
+<a class="link" href="{% url 'users:profile' %}">register</a>
+
+{% endblock %}

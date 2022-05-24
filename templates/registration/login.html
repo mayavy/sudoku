@@ -1,0 +1,27 @@
+{% extends "../base/base.html" %}
+{% block title %}Log-in{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/registration/style.css' %}" />
+
+{% if request.user.is_authenticated %}
+<script>window.location.href = '{% url "users:profile" %}' </script>
+{% endif %}
+
+<p>Sign in</p>
+<form id="login" action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="alert" role="alert">
+        Error: username/pswd not correct
+    </div>
+    {% endif %}
+    <label class="login-label" id="user">{{ form.username.label }}</label>{{form.username}}
+
+    <label class="login-label" id="password">{{ form.password.label }}</label>{{form.password}}
+
+    <button class="button" type="submit" value="login">Sign in</button>
+</form>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "../base/base.html" %}
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/registration/style.css' %}" />
+<link rel="stylesheet" href="{% static '/registration/register.css' %}" />
+
+<!-- todo how to pass placeholder in fieldof formFiled instance -->
+{% if request.user.is_authenticated %}
+<script>window.location.href = '{% url "users:profile" %}' </script>
+{% endif %}
+
+
+
+<form id="register" action="." method="post">
+    <p class="direction">* Fields are required</p>
+
+    {% if form.errors %}
+    <p classes="alert" role="alert"> Error!</p>
+    {% for field in form %}
+    {% if field.errors %}
+    <div classes="alert" role="alert">
+        {{ field.label }}: {{ field.errors|striptags }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    {% csrf_token %}
+    <label class="login-label" id="user">*{{ form.username.label }}</label>
+    {{ form.username }}
+    <label class="login-label" id="email">*{{ form.email.label }}</label>
+    {{ form.email }}
+    <label class="login-label" id="password">*{{ form.password1.label }}</label>
+    {{ form.password1 }}
+    <label class="login-label" id="password">*{{ form.password2.label }}</label>
+    {{ form.password2 }}
+    <button class="button" type="submit">Register</button>
+    <br>
+
+    <a id="loging" href="{% url 'login' %}">Or Sign-In instead </a>
+</form>
+
+
+
+
+
+{% endblock %}

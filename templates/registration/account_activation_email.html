@@ -1,0 +1,9 @@
+{% autoescape off %}
+helloooooo {{ user.username }}
+
+please click the link below to activate your account
+
+http://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}
+{% endautoescape %}
+
+<!-- this is actual mail body to be sent -->

@@ -1,0 +1,39 @@
+{% extends "../base/base.html" %}
+{% block title %}detail{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/sudoku/style.css' %}" />
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}" />
+
+
+
+{% for post in qs %}
+
+{% if not forloop.counter|divisibleby:2 %}
+<div class="item col-1">
+    <a class="name" href="{% url 'posts:detail' post.id %}">{{ post.name}}</a>
+    <div class="user_short">{{ post.name_short }}</div>
+    <div class="show_time">{{ post.show_time }}</div>
+
+
+    {{ post.div |safe }}
+    <div class="story">{{ post.story }}</div>
+</div>{% endif %}
+
+{% if forloop.counter|divisibleby:2 %}
+<div class="item col-2">
+    <a class="name" href="{% url 'posts:detail' post.id %}">{{ post.name}}</a>
+    <div class="user_short">{{ post.name_short }}</div>
+    <div class="show_time">{{ post.show_time }}</div>
+
+
+    {{ post.div |safe }}
+    <div class="story">{{ post.story }}</div>
+</div>
+{% endif %}
+{% endfor %}
+
+
+
+{% endblock %}

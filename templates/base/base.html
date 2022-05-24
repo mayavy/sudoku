@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/base/style.css' %}" />
+
+
+    <title>
+        title
+    </title>
+</head>
+
+<body>
+
+    <nav role='navigation'>
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'posts:home' %}">Home</a></li>
+            <li><a id="username" href="{% url 'users:profile' %}">Hi {{user.username}}</a>
+                <ul>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'users:pwdforget' %}">Change Password</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'posts:list' %}">Other's Posts </a></li>
+            <li><a href="{% url 'posts:about' %}">About</a></li>
+
+
+
+            {% else %}
+            <li><a href="{% url 'users:login' %}">Sign-In </a></li>
+            <li><a href="{% url 'users:register' %}">Sign-Up</a></li>
+            <li><a href="{% url 'posts:about' %}">About</a></li>
+            {% endif %}
+        </ul>
+        <a href="{% url 'posts:home' %}" id="name"> Sudoku Vision</a>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>

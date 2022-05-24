@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+data
+docker-compose.yml
+nginx
+static_root
+sudoku_project/.env
+*__pycache__
+*migrations
+github_key
+github_key.pub
+require.txt

@@ -1,0 +1,72 @@
+{% extends "../base/base.html" %}
+{% block title %}detail{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}" />
+<link rel="stylesheet" href="{% static '/sudoku/style.css' %}" />
+
+
+<div class="item col-1">
+    <a class="name" href="{% url 'posts:detail' post.id %}">{{ post.name}}</a>
+    <div class="show_time"> by-{{ post.author }}</div>
+    <div class="show_time">{{ post.show_time }}</div>
+    {{ post.div |safe }}
+</div>
+
+<div class="story-detail">
+    <h3>story</h3>{{ post.story }}
+</div>
+
+
+{% if user.is_authenticated %}
+<form id="comment-post" method="post">
+    {% csrf_token %}
+    <textarea id='cmnt' row="1" name="comment" placeholder="Comment here !" rows="5" cols="85" type="text"
+        maxlength="200" required></textarea>
+    <button type="submit">comment!</button>
+</form>
+{% endif %}
+
+{% for obj in commentqs %}
+
+{% if forloop.counter <= 5 %} <div class="comment">
+    <h5 class="user_short">{{ obj.name_short }}</h5>
+    <h5 class="show_time">{{ obj.show_time }}</h5>
+    <h5>{{ obj.comment }}</h5>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <!-- bootstrap here -->
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#hidden" aria-expanded="false"
+        aria-controls="hidden">
+        See all comments
+    </button>
+
+    {% for obj in commentqs %}
+    {% if forloop.counter > 5 %}
+    <div class="collapse" id="hidden">
+        <div class="comment">
+            <h5 class="user_short">{{ obj.name_short }}</h5>
+            <h5 class="show_time">{{ obj.show_time }}</h5>
+            <h5>{{ obj.comment }}</h5>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    {% endblock %}

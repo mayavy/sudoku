@@ -1,0 +1,221 @@
+{% extends "../base/base.html" %}
+{% block title %}profile{% endblock %}
+
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/sudoku/style.css' %}" />
+<link rel="stylesheet" href="{% static '/sudoku/home.css' %}" />
+
+<form id="imgform" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input id="img" type="file" name="imagefile" required />
+    <button type="submit">upload</button>
+</form>
+
+
+<form id="grid" method="post">
+    {% csrf_token %}
+</form>
+<div class="circle small"></div>
+<div class="circle large"></div>
+
+<h3 id="load" hidden>Loading...</h3>
+<h3 id="justify" hidden>Why all digit were not recognised correctly</h3>
+<h3 id="ques" hidden>?</h3>
+<h3 id="ans" hidden>If any 3 digits of all 81 digit are recongnised correctly, it means<br /> that detection &
+    extraction algorithm for 81 digit blocks is working<br /> as intended,
+    but recongnition of digits out of these 81 blocks<br /> is not what I coded,
+    This is being done by 'Tesseract-OCR'.<br />You can still enter digits--.
+</h3>
+<h3 id="solving" hidden>Solving..<br />Max time is 120 seconds</h3>
+<h3 id="warning" hidden>Gotcha! Invalid Sudoku</h3>
+<h3 id="sorry" hidden>Sorry could not solve,<br />but I will improve it. </h3>
+
+
+<script>
+    //  java script for image submission cycle
+    var original_grid = document.getElementById("grid"); //save grid form
+    document.getElementById("grid").remove(); //removing 'grid id' from DOC
+    function f_toserver(formdata) { //talking to server
+        // console.log("posting img");
+        let csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0].value; // save csrf token from document
+        fetch("{% url 'posts:home' %}", { //fetch api call
+            method: "Post",
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "X-Requested-With": "XMLHttpRequest" // to make it is_ajax==1 , depricated though
+            },
+
+            body: formdata
+            // var_data variable with actual-data
+        }).then(function (response) { // chain function call
+            return response.json();
+        }).then(function (data) {
+            // remove tag- 'load'
+            document.getElementById('load').setAttribute('hidden', true);
+            document.getElementById('justify').removeAttribute('hidden');
+            document.getElementById('ques').removeAttribute('hidden');
+
+            console.log('data.y', typeof data.string81);
+            f_build(data);
+            return data;
+        }).catch((error) => {
+            console.log("Errrrrrrrror", error);
+        })
+
+    }
+
+    function f_build(recieved) { // for building 9x9 grid 
+        var grid = original_grid.cloneNode(true);
+        // console.log(grid.id);
+        grid.id = "different";
+        var myEle = document.getElementById("different");
+        if (myEle) {
+            document.body.removeChild(myEle);
+        }
+        document.body.appendChild(grid);
+
+        for (var i = 0; i < 9; i++) {
+            grid.innerHTML += '<span>'
+            for (var j = 0; j < 9; j++) {
+                val = recieved.string81.slice(i * 9, (i + 1) * 9)[j]
+                if (val == 0) { val = '' }
+                var cell = `<input id="cell${i}${j}" class="cell" name='array81' value="${val}"  maxlength="1" inputmode="numeric" pattern="^[1-9]$" title="enter only 1 to 9" min="1" size="1"/>`
+                grid.innerHTML += cell
+            }
+            grid.innerHTML += '</span><br/>'
+
+        }
+        grid.innerHTML += `
+
+            {% if request.user.is_authenticated %}
+        <input id='text1' name="name" placeholder="name it !" type="text" maxlength="50" required /> <br/>
+        <textarea id='text2' row="5" cols="85" name="story" placeholder="write something, whatever is in you mind !" type="text" maxlength="1000" ></textarea> <br/>
+                                {% endif %}
+        <button id="solve" type="submit" onclick="doing();">solve</button>`
+        // console.log(recieved.data);
+        // 
+
+    }
+
+    function f_tosubmit(event) { // after image submit button
+        event.preventDefault();
+        document.getElementById('load').removeAttribute('hidden');
+        document.getElementById('justify').setAttribute('hidden', true);
+        document.getElementById('ques').setAttribute('hidden', true);
+
+        document.getElementById('sorry').setAttribute('hidden', true);
+        document.getElementById('warning').setAttribute('hidden', true);
+        let formdata = new FormData(theform); // form data from document =-> to variable
+        f_toserver(formdata);
+    }
+    // start here
+    let theform = document.getElementById("imgform");
+    theform.addEventListener("submit", f_tosubmit);
+</script>
+
+<!-- javascript for sudoku form solving/submitting -->
+<script>
+
+    function arraytoserver(formdata) { //talking to server
+        function fill_empty_differ() { //make empty zeros
+            var tags = document.querySelectorAll(".empty-cell");
+            for (var i = 0; i < tags.length; i++) {
+                if (tags[i].value == 0) { tags[i].value = ''; tags[i].setAttribute('class', 'cell'); }
+            };
+
+
+        }
+
+        console.log("solving ");
+        let csrftoken = document.getElementsByName("csrfmiddlewaretoken")[0].value; // save csrf token from document
+        fetch("{% url 'posts:home' %}", { //fetch api call
+            method: "Post",
+            headers: {
+                "X-CSRFToken": csrftoken,
+                "X-Requested-With": "XMLHttpRequest" // to make it is_ajax==1 , depricated though
+            },
+            body: formdata
+            // var_data variable with actual-data
+        }).then(function (response) { // chain function call
+            return response.json();
+        }).then(function (data) {
+            // console.log('data.y', typeof data.data);
+            document.getElementById('solving').setAttribute('hidden', true);
+            if (data.timeout == true) {
+                // sorry time out couldnot solve
+                document.getElementById('sorry').removeAttribute('hidden')
+                fill_empty_differ()
+            }
+            else {
+                if (data.invalid == true) {
+                    document.getElementById('warning').removeAttribute('hidden')
+                    fill_empty_differ()
+
+                }
+                else {
+                    for (var i = 0; i < 9; i++) {
+                        for (var j = 0; j < 9; j++) {
+                            document.getElementById(`cell${i}${j}`).value = data.string81.slice(i * 9, (i + 1) * 9)[j];
+                            document.getElementById(`cell${i}${j}`).setAttribute('readonly', true);
+                        }
+                    };
+                    try {
+                        document.getElementById('text1').setAttribute('hidden', true);
+                        document.getElementById('text2').setAttribute('hidden', true);
+                    } catch (error) {
+                        console.log('errrrrror', error);
+                    } finally {
+                        document.getElementById('solve').setAttribute('hidden', true);
+                    }
+                }
+            }
+
+            return data;
+        }).catch((error) => {
+            console.log("Errrrrrrrror", error);
+        })
+
+    }
+
+    function doing() {
+        function arraysubmit(event) {
+            // console.log(event);
+            event.target.removeEventListener("submit", arraysubmit)
+            document.getElementById('solving').removeAttribute('hidden');
+            document.getElementById('justify').setAttribute('hidden', true);
+            document.getElementById('ques').setAttribute('hidden', true);
+
+            document.getElementById('sorry').setAttribute('hidden', true);
+            document.getElementById('warning').setAttribute('hidden', true);
+            event.preventDefault();
+
+            var tags = document.querySelectorAll(".cell");
+            for (var i = 0; i < tags.length; i++) {
+                // console.log(i, tags.item(i));
+                if (tags[i].value == '') { tags[i].value = 0; tags[i].setAttribute('class', 'empty-cell'); }
+            }; // make all empty cell values= 0 & mark they're empty, for backend simplicity !
+            let formdata = new FormData(formarray);
+            clone = formarray.cloneNode(true);
+            document.body.removeChild(formarray); // reconstruct form to remove event listner
+            document.body.appendChild(clone);
+            arraytoserver(formdata);
+
+        }
+        // starts here
+        let formarray = document.getElementById("different");
+        formarray.addEventListener("submit", arraysubmit);
+
+
+
+    }
+
+</script>
+
+
+<p>
+
+</p>
+
+{% endblock %}
