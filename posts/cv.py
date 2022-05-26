@@ -184,7 +184,7 @@ def img_str(img_obj):
         M = cv2.getPerspectiveTransform(src, dst)
         warped = cv2.warpPerspective(thresh, M, (length, length))
         warped = cv2.threshold(warped, 10, 255, cv2.THRESH_BINARY)[1]
-        cv2.imwrite('E:\dev\sudoku\media\warped.png', warped)
+        # cv2.imwrite('E:\dev\sudoku\media\warped.png', warped)
         
 
         # **********

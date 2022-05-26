@@ -2,7 +2,7 @@
 
 # Till Now
 
-All view are function based
+All view are now class based, rest is same.
 Django monolith 
 Contains Js-fetch asynchronous request handling
 

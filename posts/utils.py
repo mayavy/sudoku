@@ -90,6 +90,6 @@ def solve(list81):
     t1.start()
     t1.join(120)
     if t1.is_alive():
-        return True  # timeout
+        return False  # timeout
     sol_list = q.get().flatten().tolist()
     return ''.join(map(str, sol_list))

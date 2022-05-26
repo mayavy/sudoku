@@ -7,15 +7,13 @@
 <script>window.location.href = '{% url "users:login" %}' </script>
 {% endif %}
 
-<form action="{% url 'users:deleteuser' %}" method="post">
+<form method="post">
     {% csrf_token %}
-    <p class="ask"> you sure ?</p>
-
-    <button class="button" class="btn btn-dark " type="submit" value="login">delttte</button>
+    <p class="ask"> You are about to delete your user account! <br/> Are sure ?</p>
+    <button class="button"  type="submit" >Yes Delete !</button>
 
 
 </form>
 <a class="link" href="{% url 'logout' %}"> Logout</a><br />
-<a class="link" href="{% url 'users:profile' %}">register</a>
 
 {% endblock %}

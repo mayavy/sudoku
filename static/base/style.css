@@ -16,6 +16,7 @@ nav {
 }
 
 nav ul {
+    float: right;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -61,12 +62,12 @@ nav ul ul {
     background: #fff;
     position: absolute;
     top: 100%;
-    box-shadow: -3px 3px 10px -2px rgba(0, 0, 0, .3);
+    box-shadow: 3px 3px 10px -2px rgba(0, 0, 0, .3);
     border: 1px solid rgba(0, 0, 0, .3);
 }
 
 nav ul ul li {
-    float: inherit;
+    float: initial;
     position: relative;
 }
 
@@ -81,7 +82,7 @@ nav ul ul li a {
 }
 
 #name {
-    float: right;
+    float: left;
     font-weight: bolder;
 
     -webkit-text-stroke-width: 1px;

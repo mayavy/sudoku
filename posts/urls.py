@@ -1,12 +1,12 @@
 from django.urls import path
-from .views import sudoku_list_view, sudoku_detail_view, home_view, about_view
+from .views import SudokuListView, SudokuDetailView, HomeView, AboutView
 
 
 app_name = 'posts'
 
 urlpatterns = [
-    path('home/', home_view, name='home'),
-    path('listall/', sudoku_list_view, name='list'),
-    path('detail/<uuid:pk>/', sudoku_detail_view, name='detail'),
-    path('about/', about_view, name='about')
+    path('home/', HomeView.as_view(), name='home'),
+    path('listall/', SudokuListView.as_view(), name='list'),
+    path('detail/<uuid:pk>/', SudokuDetailView.as_view(), name='detail'),
+    path('about/', AboutView.as_view(), name='about')
 ]

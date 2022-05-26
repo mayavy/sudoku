@@ -119,13 +119,12 @@
 <script>
 
     function arraytoserver(formdata) { //talking to server
+
         function fill_empty_differ() { //make empty zeros
             var tags = document.querySelectorAll(".empty-cell");
             for (var i = 0; i < tags.length; i++) {
                 if (tags[i].value == 0) { tags[i].value = ''; tags[i].setAttribute('class', 'cell'); }
             };
-
-
         }
 
         console.log("solving ");
@@ -149,7 +148,7 @@
                 fill_empty_differ()
             }
             else {
-                if (data.invalid == true) {
+                if (!data.valid) {
                     document.getElementById('warning').removeAttribute('hidden')
                     fill_empty_differ()
 

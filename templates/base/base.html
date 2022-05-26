@@ -22,6 +22,7 @@
             <li><a id="username" href="{% url 'users:profile' %}">Hi {{user.username}}</a>
                 <ul>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'users:deleteuser' pk=user.id %}">Delete Account</a></li>
                     <li><a href="{% url 'users:pwdforget' %}">Change Password</a></li>
                 </ul>
             </li>
@@ -31,6 +32,7 @@
 
 
             {% else %}
+            <li><a href="{% url 'posts:home' %}">Home</a></li>
             <li><a href="{% url 'users:login' %}">Sign-In </a></li>
             <li><a href="{% url 'users:register' %}">Sign-Up</a></li>
             <li><a href="{% url 'posts:about' %}">About</a></li>

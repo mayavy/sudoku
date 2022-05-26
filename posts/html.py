@@ -20,6 +20,7 @@ def construct(sudokustr, solutionstr) -> str:
 
 
 class Custom_obj:
+    """ from SudokuModel Queryset obj -> Obj with extra attributes"""
     def __init__(self, in_obj):
         self.name = in_obj.name
         self.story = in_obj.story
