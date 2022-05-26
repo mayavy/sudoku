@@ -2,9 +2,11 @@
 
 # Till Now
 
-All view are now class based, rest is same.
-Django monolith 
+All view are class based, slightly modified HTML & CSS.
+Django monolith,
 Contains Js-fetch asynchronous request handling
+
+## Always check all branches, 'master' my not be the latest.
 
 ## About 
 

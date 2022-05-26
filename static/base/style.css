@@ -1,7 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Lato);
 
 body {
-    padding-top: 65px;
+    background-image:
+        linear-gradient(to bottom, transparent 90%, #fff 10%),
+        linear-gradient(to right, #fff 10%, rgba(142, 235, 243, 0.251) 10%);
+    background-size: 5px 100px, 100px 5px;
+
+    padding: 65px 10px 10px 10px;
+
+
+
 }
 
 
@@ -19,6 +27,7 @@ nav ul {
     float: right;
     padding: 0;
     margin: 0;
+    position: static;
     list-style: none;
     display: inline-table;
 }
@@ -84,6 +93,7 @@ nav ul ul li a {
 #name {
     float: left;
     font-weight: bolder;
+    position: relative;
 
     -webkit-text-stroke-width: 1px;
     letter-spacing: 10px;

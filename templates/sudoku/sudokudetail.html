@@ -30,15 +30,13 @@
     <h3>story</h3>{{ post.story }}
 </div>
 
-
-{% if user.is_authenticated %}
 <form id="comment-post" method="post">
     {% csrf_token %}
-    <textarea id='cmnt' row="1" name="comment" placeholder="Comment here !" rows="5" cols="85" type="text"
+    <textarea id='cmnt' row="1" name="comment" placeholder="Comment here !" rows="5" cols="60" type="text"
         maxlength="200" required></textarea>
     <button type="submit">comment!</button>
 </form>
-{% endif %}
+
 
 {% for obj in commentqs %}
 
